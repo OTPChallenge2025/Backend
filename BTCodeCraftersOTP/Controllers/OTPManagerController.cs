@@ -116,5 +116,14 @@ namespace BTCodeCraftersOTP.Controllers
                 return new JsonResult("OTP is incorrect.");
             }
         }
+
+        [HttpPost]
+        [Route("GetCurrentTime")]
+        public JsonResult GetCurrentTime([FromBody] int time)
+        {
+            ResetAfterTime.setCurrentTime(time);
+
+            return new JsonResult("Received time.");
+        }
     }
 }

@@ -3,10 +3,16 @@
     public class ResetAfterTime : BackgroundService
     {
         private ILogger<ResetAfterTime> _logger;
+        private static int currentTime = 0;
 
         public ResetAfterTime(ILogger<ResetAfterTime> logger)
         {
             _logger = logger;
+        }
+
+        public static void setCurrentTime(int _currentTime)
+        {
+            currentTime = _currentTime;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -35,12 +41,13 @@
                     Console.WriteLine("OTP: " + dataFromFile + " ;");
 
                     // How much waiting time for the OTP:
-                    var howMuchDelay = 30;
-                    for (int i = 0; i < howMuchDelay; i++)
+                    var previous = currentTime;
+                    while (currentTime > 0)
                     {
-                        Console.WriteLine("Seconds left: " + (30 - i));
+                        Console.WriteLine("Current time: " + currentTime);
                         await Task.Delay(1 * 1000, stoppingToken);
                     }
+                    Console.WriteLine("Finished waiting. (current time = " + currentTime + ")");
 
                     //Empty the OTP:
                     StreamWriter writer2 = null;
